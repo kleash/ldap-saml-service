@@ -9,6 +9,7 @@ import (
 
 const DefaultSessionCookieName = "token"
 const DefaultSessionMaxAge = time.Hour
+
 var DefaultJWTSigningMethod = jwt.SigningMethodRS256
 
 // All environment variables config goes here for better tracking.
@@ -67,7 +68,7 @@ func ServerURL() string {
 	return setDefaultString(os.Getenv(ConfMap["server_url"]), "http://localhost:8000")
 }
 func ServerPort() string {
-	return setDefaultString(os.Getenv(ConfMap["server_port"]), "8000")
+	return setDefaultString(os.Getenv(ConfMap["server_port"]), "9000")
 }
 func LdapHost() string { return setDefaultString(os.Getenv(ConfMap["ldap_host"]), "localhost") }
 func LdapPort() (int, error) {

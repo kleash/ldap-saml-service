@@ -37,6 +37,7 @@ func main() {
 	if err != nil {
 		panic(err) // TODO handle error
 	}
+
 	samlSP := saml.NewSaml(idpMetadataURL, rootURL, keyPair)
 	ldapProvider, err := ldap.New(rootURL, keyPair.PrivateKey.(*rsa.PrivateKey))
 	if err != nil {
@@ -44,9 +45,9 @@ func main() {
 	}
 
 	app := http.HandlerFunc(hello)
-	http.Handle("/loginSaml", samlSP.RequireAccount(app))
-	http.Handle("/saml/", samlSP)
-	http.Handle("/loginLdap", http.HandlerFunc(ldapProvider.LDAPLogin))
+	http.Handle("/auth/loginSaml", samlSP.RequireAccount(app))
+	http.Handle("/auth/saml/", samlSP)
+	http.Handle("/auth/loginLdap", http.HandlerFunc(ldapProvider.LDAPLogin))
 
 	http.ListenAndServe(fmt.Sprintf(":%s", config.ServerPort()), nil)
 }

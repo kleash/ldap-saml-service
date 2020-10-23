@@ -1,0 +1,31 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+- name: my-service
+  url: http://localhost:9000/auth
+  routes:
+  - name: my-route
+    paths:
+    - /auth
+- name: my-service2
+  url: http://localhost:8080
+  routes:
+  - name: my-route2
+    paths:
+    - /
+plugins:
+- name: jwt
+  service: my-service2
+  config:
+    cookie_names: [token]
+    claims_to_verify: [exp]
+    
+consumers:
+- username: 1portal-auth
+
+jwt_secrets:
+- consumer: 1portal-auth
+  key: http://localhost:8000
+  algorithm: RS256
+  rsa_public_key: "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDU8wdiaFmPfTyRYuFlVPi866Wr\nH/2JubkHzp89bBQopDaLXYxi3PTu3O6Q/KaKxMOFBqrInwqpv/omOGZ4ycQ51O9I\n+Yc7ybVlW94lTo2gpGf+Y/8EPsVbnZaFutRctJ4dVIp9aQ2TpLiGT0xX1OzBO/JE\ngq9GzDRf+B+eqSuglwIDAQAB\n-----END PUBLIC KEY-----"
